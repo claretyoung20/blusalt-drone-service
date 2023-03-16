@@ -28,8 +28,8 @@ public class DroneState implements Serializable {
 
     @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(name = "drone_state_status", nullable = false)
-    private GenericStatusConstant droneStateStatus;
+    @Column(name = "status", nullable = false)
+    private GenericStatusConstant status;
 
     @Column(name = "date_created", nullable = false)
     private Date dateCreated;

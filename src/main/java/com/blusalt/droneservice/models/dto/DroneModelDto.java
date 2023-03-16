@@ -20,7 +20,7 @@ public class DroneModelDto implements Serializable {
     public static DroneModel toModel(DroneModelDto dto) {
         DroneModel model = new DroneModel();
 
-        model.setDroneModelStatus(dto.getDroneModelStatus());
+        model.setStatus(dto.getDroneModelStatus());
         model.setModelName(dto.getModelName());
 
         return model;

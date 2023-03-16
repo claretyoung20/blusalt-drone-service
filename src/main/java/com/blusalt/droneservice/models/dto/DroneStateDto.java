@@ -17,7 +17,7 @@ public class DroneStateDto implements Serializable {
         DroneState droneState = new DroneState();
 
         droneState.setState(dto.getState());
-        droneState.setDroneStateStatus(dto.getDroneStateStatus());
+        droneState.setStatus(dto.getDroneStateStatus());
 
         return droneState;
     }

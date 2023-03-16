@@ -16,14 +16,14 @@ import java.util.Optional;
 @Repository
 public interface DroneModelRepository extends JpaRepository<DroneModel, Long> {
 
-    @Query("select dm from DroneModel dm where dm.modelName = ?1 and dm.droneModelStatus='ACTIVE'")
+    @Query("select dm from DroneModel dm where dm.modelName = ?1 and dm.status='ACTIVE'")
     Optional<DroneModel> findActiveDroneModel(String model);
 
-    @Query("select dm from DroneModel dm where dm.id = ?1 and dm.droneModelStatus='ACTIVE'")
+    @Query("select dm from DroneModel dm where dm.id = ?1 and dm.status='ACTIVE'")
     Optional<DroneModel> findActiveDroneModelById(Long id);
 
-    @Query("select dm from DroneModel dm where dm.droneModelStatus='ACTIVE'")
+    @Query("select dm from DroneModel dm where dm.status='ACTIVE'")
     List<DroneModel> findAllActiveDroneModel();
 
-    List<DroneModel> findAllByDroneModelStatusIsNot(GenericStatusConstant statusConstant);
+    List<DroneModel> findAllByStatusIsNot(GenericStatusConstant statusConstant);
 }

@@ -14,14 +14,14 @@ import java.util.Optional;
  */
 @Repository
 public interface DroneStateRepository extends JpaRepository<DroneState, Long> {
-    @Query("select ds from DroneState ds where ds.state = ?1 and ds.droneStateStatus='ACTIVE'")
+    @Query("select ds from DroneState ds where ds.state = ?1 and ds.status='ACTIVE'")
     Optional<DroneState> findActiveDroneState(String state);
 
-    @Query("select ds from DroneState ds where ds.id = ?1 and ds.droneStateStatus='ACTIVE'")
+    @Query("select ds from DroneState ds where ds.id = ?1 and ds.status='ACTIVE'")
     Optional<DroneState> findActiveDroneStateById(Long id);
 
-    @Query("select ds from DroneState ds where ds.droneStateStatus='ACTIVE'")
+    @Query("select ds from DroneState ds where ds.status='ACTIVE'")
     List<DroneState> findAllActiveDroneState();
 
-    List<DroneState> findAllByDroneStateStatusIsNot(GenericStatusConstant statusConstant);
+    List<DroneState> findAllByStatusIsNot(GenericStatusConstant statusConstant);
 }

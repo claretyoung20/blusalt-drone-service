@@ -51,7 +51,7 @@ public class DroneModelServiceImpl implements DroneModelService {
         if(model.isPresent()){
 
             DroneModel droneModel = model.get();
-            droneModel.setDroneModelStatus(droneModelDto.getDroneModelStatus());
+            droneModel.setStatus(droneModelDto.getDroneModelStatus());
             droneModel.setDateUpdated(new Date());
 
             return droneModelRepository.save(droneModel);
@@ -64,7 +64,7 @@ public class DroneModelServiceImpl implements DroneModelService {
     @Transactional(readOnly = true)
     public List<DroneModel> findAll() {
         log.debug("Request to get all DroneModels");
-        return droneModelRepository.findAllByDroneModelStatusIsNot(GenericStatusConstant.DELETED);
+        return droneModelRepository.findAllByStatusIsNot(GenericStatusConstant.DELETED);
     }
 
     @Override
@@ -97,7 +97,7 @@ public class DroneModelServiceImpl implements DroneModelService {
 
             DroneModel droneModel = model.get();
 
-            droneModel.setDroneModelStatus(GenericStatusConstant.DELETED);
+            droneModel.setStatus(GenericStatusConstant.DELETED);
             droneModel.setDateUpdated(new Date());
 
            droneModelRepository.save(droneModel);
