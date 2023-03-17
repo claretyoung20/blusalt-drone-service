@@ -1,17 +1,13 @@
 package com.blusalt.droneservice.models;
 
-import com.blusalt.droneservice.models.enums.DeliveryStatusDelivery;
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.blusalt.droneservice.models.enums.DeliveryStatus;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.Duration;
 import java.time.Instant;
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -32,7 +28,7 @@ public class Delivery  implements Serializable {
     @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "delivery_status", nullable = false)
-    private DeliveryStatusDelivery deliveryStatus;
+    private DeliveryStatus deliveryStatus;
 
     @Column(name = "start_time")
     private Instant startTime;
@@ -47,7 +43,7 @@ public class Delivery  implements Serializable {
     private Date dateUpdated;
 
     @Column(name = "duration")
-    private Duration duration;
+    private Duration duration; // todo remove me
 
     @ManyToOne(optional = false)
     @NotNull
@@ -56,7 +52,7 @@ public class Delivery  implements Serializable {
 
     @OneToMany(mappedBy = "delivery")
     @JsonIgnoreProperties(value = { "address", "delivery" }, allowSetters = true)
-    private Set<PackageInfo> packageInfos = new HashSet<>();
+    private Set<Item> items = new HashSet<>();
 
 //    private double droneWeightAvailable; // todo is it needed?
 
@@ -73,16 +69,16 @@ public class Delivery  implements Serializable {
         this.id = id;
     }
 
-    public DeliveryStatusDelivery getDeliveryStatus() {
+    public DeliveryStatus getDeliveryStatus() {
         return this.deliveryStatus;
     }
 
-    public Delivery deliveryStatus(DeliveryStatusDelivery deliveryStatus) {
+    public Delivery deliveryStatus(DeliveryStatus deliveryStatus) {
         this.setDeliveryStatus(deliveryStatus);
         return this;
     }
 
-    public void setDeliveryStatus(DeliveryStatusDelivery deliveryStatus) {
+    public void setDeliveryStatus(DeliveryStatus deliveryStatus) {
         this.deliveryStatus = deliveryStatus;
     }
 
@@ -164,34 +160,34 @@ public class Delivery  implements Serializable {
         return this;
     }
 
-    public Set<PackageInfo> getPackageInfos() {
-        return this.packageInfos;
+    public Set<Item> getItems() {
+        return this.items;
     }
 
-    public void setPackageInfos(Set<PackageInfo> packageInfos) {
-        if (this.packageInfos != null) {
-            this.packageInfos.forEach(i -> i.setDelivery(null));
+    public void setItems(Set<Item> items) {
+        if (this.items != null) {
+            this.items.forEach(i -> i.setDelivery(null));
         }
-        if (packageInfos != null) {
-            packageInfos.forEach(i -> i.setDelivery(this));
+        if (items != null) {
+            items.forEach(i -> i.setDelivery(this));
         }
-        this.packageInfos = packageInfos;
+        this.items = items;
     }
 
-    public Delivery packageInfos(Set<PackageInfo> packageInfos) {
-        this.setPackageInfos(packageInfos);
+    public Delivery items(Set<Item> items) {
+        this.setItems(items);
         return this;
     }
 
-    public Delivery addPackageInfo(PackageInfo packageInfo) {
-        this.packageInfos.add(packageInfo);
-        packageInfo.setDelivery(this);
+    public Delivery addItem(Item item) {
+        this.items.add(item);
+        item.setDelivery(this);
         return this;
     }
 
-    public Delivery removePackageInfo(PackageInfo packageInfo) {
-        this.packageInfos.remove(packageInfo);
-        packageInfo.setDelivery(null);
+    public Delivery removeItem(Item item) {
+        this.items.remove(item);
+        item.setDelivery(null);
         return this;
     }
 

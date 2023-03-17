@@ -46,13 +46,15 @@ public class DroneModelServiceImpl implements DroneModelService {
     public DroneModel updateStatus(DroneModelDto droneModelDto, Long id) {
         log.debug("Request to update DroneModel : {}", droneModelDto);
 
-        Optional<DroneModel> model = droneModelRepository.findActiveDroneModelById(id);
+        Optional<DroneModel> model = droneModelRepository.findByIdAndStatusIsNot(id, GenericStatusConstant.DELETED);
 
         if(model.isPresent()){
 
             DroneModel droneModel = model.get();
             droneModel.setStatus(droneModelDto.getDroneModelStatus());
             droneModel.setDateUpdated(new Date());
+
+            //todo check if name is part of the chnage do name chck on the db befr editig it
 
             return droneModelRepository.save(droneModel);
         } else {
@@ -78,7 +80,7 @@ public class DroneModelServiceImpl implements DroneModelService {
     @Transactional(readOnly = true)
     public Optional<DroneModel> findById(Long id) {
         log.debug("Request to get DroneModel : {}", id);
-        return droneModelRepository.findActiveDroneModelById(id);
+        return droneModelRepository.findByIdAndStatusIsNot(id, GenericStatusConstant.DELETED);
     }
 
     @Override

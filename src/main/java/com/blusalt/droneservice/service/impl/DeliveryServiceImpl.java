@@ -2,13 +2,14 @@ package com.blusalt.droneservice.service.impl;
 
 import com.blusalt.droneservice.models.Delivery;
 import com.blusalt.droneservice.models.Drone;
-import com.blusalt.droneservice.models.DroneModel;
 import com.blusalt.droneservice.models.enums.DroneStateConstant;
 import com.blusalt.droneservice.models.enums.GenericStatusConstant;
 import com.blusalt.droneservice.repository.DeliveryRepository;
 import com.blusalt.droneservice.repository.DroneRepository;
 import com.blusalt.droneservice.service.DeliveryService;
 import com.blusalt.droneservice.web.rest.errors.ErrorResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +24,7 @@ import java.util.Optional;
 @Transactional
 public class DeliveryServiceImpl implements DeliveryService {
 
+    private final Logger log = LoggerFactory.getLogger(DeliveryServiceImpl.class);
     @Inject
     private DeliveryRepository deliveryRepository;
 
@@ -32,7 +34,7 @@ public class DeliveryServiceImpl implements DeliveryService {
     @Override
     public Delivery getLoadedDeliveryByDrone(Long droneId) {
 
-        Optional<Drone> droneById = droneRepository.findActiveDroneById(droneId);
+        Optional<Drone> droneById = droneRepository.findByIdAndStatusIsNot(droneId, GenericStatusConstant.DELETED);
 
         if(droneById.isPresent()) {
             Drone drone  = droneById.get();

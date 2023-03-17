@@ -2,31 +2,31 @@ package com.blusalt.droneservice.models.pojos;
 
 import com.blusalt.droneservice.models.Address;
 import com.blusalt.droneservice.models.Delivery;
-import com.blusalt.droneservice.models.PackageInfo;
-import com.blusalt.droneservice.models.enums.DeliveryStatusDelivery;
-import com.blusalt.droneservice.models.enums.PackageTypeConstant;
+import com.blusalt.droneservice.models.Item;
+import com.blusalt.droneservice.models.enums.DeliveryStatus;
+import com.blusalt.droneservice.models.enums.ItemTypeConstant;
 import lombok.Data;
 
 import java.time.Instant;
 import java.util.Date;
 
 @Data
-public class PackageInfoPojo {
+public class ItemPojo {
     private Long id;
     private String name;
     private Double weight;
     private String code;
     private String imageUrl;
-    private PackageTypeConstant packageType;
-    private DeliveryStatusDelivery packageStatus;
+    private ItemTypeConstant itemTypeConstant;
+    private DeliveryStatus itemStatus;
     private Instant timeDelivered;
     private Date dateCreated;
     private Date dateUpdated;
     private Address address;
     private Delivery delivery;
 
-    public static PackageInfoPojo toPojo(PackageInfo packageInfo) {
-        PackageInfoPojo pojo = new PackageInfoPojo();
+    public static ItemPojo toPojo(Item item) {
+        ItemPojo pojo = new ItemPojo();
 
         //todo set values
 

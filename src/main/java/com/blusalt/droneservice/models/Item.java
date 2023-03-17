@@ -1,7 +1,7 @@
 package com.blusalt.droneservice.models;
 
-import com.blusalt.droneservice.models.enums.DeliveryStatusDelivery;
-import com.blusalt.droneservice.models.enums.PackageTypeConstant;
+import com.blusalt.droneservice.models.enums.DeliveryStatus;
+import com.blusalt.droneservice.models.enums.ItemTypeConstant;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
@@ -12,11 +12,11 @@ import java.time.Instant;
 import java.util.Date;
 
 /**
- * A PackageInfo.
+ * A Item.
  */
 @Entity
-@Table(name = "package_info")
-public class PackageInfo  implements Serializable {
+@Table(name = "item")
+public class Item implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -45,13 +45,13 @@ public class PackageInfo  implements Serializable {
 
     @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(name = "package_type", nullable = false)
-    private PackageTypeConstant packageType;
+    @Column(name = "item_type", nullable = false)
+    private ItemTypeConstant itemType;
 
     @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(name = "package_status", nullable = false)
-    private DeliveryStatusDelivery packageStatus;
+    @Column(name = "item_status", nullable = false)
+    private DeliveryStatus itemStatus;
 
     @Column(name = "time_delivered")
     private Instant timeDelivered;
@@ -67,14 +67,14 @@ public class PackageInfo  implements Serializable {
 
     @ManyToOne(optional = false)
     @NotNull
-    @JsonIgnoreProperties(value = { "drone", "packageInfos" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "drone", "items" }, allowSetters = true)
     private Delivery delivery;
 
     public Long getId() {
         return this.id;
     }
 
-    public PackageInfo id(Long id) {
+    public Item id(Long id) {
         this.setId(id);
         return this;
     }
@@ -86,7 +86,7 @@ public class PackageInfo  implements Serializable {
         return this.name;
     }
 
-    public PackageInfo name(String name) {
+    public Item name(String name) {
         this.setName(name);
         return this;
     }
@@ -99,7 +99,7 @@ public class PackageInfo  implements Serializable {
         return this.weight;
     }
 
-    public PackageInfo weight(Double weight) {
+    public Item weight(Double weight) {
         this.setWeight(weight);
         return this;
     }
@@ -112,7 +112,7 @@ public class PackageInfo  implements Serializable {
         return this.code;
     }
 
-    public PackageInfo code(String code) {
+    public Item code(String code) {
         this.setCode(code);
         return this;
     }
@@ -125,7 +125,7 @@ public class PackageInfo  implements Serializable {
         return this.imageUrl;
     }
 
-    public PackageInfo imageUrl(String imageUrl) {
+    public Item imageUrl(String imageUrl) {
         this.setImageUrl(imageUrl);
         return this;
     }
@@ -134,37 +134,37 @@ public class PackageInfo  implements Serializable {
         this.imageUrl = imageUrl;
     }
 
-    public PackageTypeConstant getPackageType() {
-        return this.packageType;
+    public ItemTypeConstant getItemType() {
+        return this.itemType;
     }
 
-    public PackageInfo packageType(PackageTypeConstant packageType) {
-        this.setPackageType(packageType);
+    public Item itemType(ItemTypeConstant itemType) {
+        this.setItemType(itemType);
         return this;
     }
 
-    public void setPackageType(PackageTypeConstant packageType) {
-        this.packageType = packageType;
+    public void setItemType(ItemTypeConstant itemType) {
+        this.itemType = itemType;
     }
 
-    public DeliveryStatusDelivery getPackageStatus() {
-        return this.packageStatus;
+    public DeliveryStatus getItemStatus() {
+        return this.itemStatus;
     }
 
-    public PackageInfo packageStatus(DeliveryStatusDelivery packageStatus) {
-        this.setPackageStatus(packageStatus);
+    public Item itemStatus(DeliveryStatus itemStatus) {
+        this.setItemStatus(itemStatus);
         return this;
     }
 
-    public void setPackageStatus(DeliveryStatusDelivery packageStatus) {
-        this.packageStatus = packageStatus;
+    public void setItemStatus(DeliveryStatus itemStatus) {
+        this.itemStatus = itemStatus;
     }
 
     public Instant getTimeDelivered() {
         return this.timeDelivered;
     }
 
-    public PackageInfo timeDelivered(Instant timeDelivered) {
+    public Item timeDelivered(Instant timeDelivered) {
         this.setTimeDelivered(timeDelivered);
         return this;
     }
@@ -177,7 +177,7 @@ public class PackageInfo  implements Serializable {
         return this.dateCreated;
     }
 
-    public PackageInfo dateCreated(Date dateCreated) {
+    public Item dateCreated(Date dateCreated) {
         this.setDateCreated(dateCreated);
         return this;
     }
@@ -190,7 +190,7 @@ public class PackageInfo  implements Serializable {
         return this.dateUpdated;
     }
 
-    public PackageInfo dateUpdated(Date dateUpdated) {
+    public Item dateUpdated(Date dateUpdated) {
         this.setDateUpdated(dateUpdated);
         return this;
     }
@@ -207,7 +207,7 @@ public class PackageInfo  implements Serializable {
         this.address = address;
     }
 
-    public PackageInfo address(Address address) {
+    public Item address(Address address) {
         this.setAddress(address);
         return this;
     }
@@ -220,7 +220,7 @@ public class PackageInfo  implements Serializable {
         this.delivery = delivery;
     }
 
-    public PackageInfo delivery(Delivery delivery) {
+    public Item delivery(Delivery delivery) {
         this.setDelivery(delivery);
         return this;
     }
@@ -230,10 +230,10 @@ public class PackageInfo  implements Serializable {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof PackageInfo)) {
+        if (!(o instanceof Item)) {
             return false;
         }
-        return id != null && id.equals(((PackageInfo) o).id);
+        return id != null && id.equals(((Item) o).id);
     }
 
     @Override
@@ -244,14 +244,14 @@ public class PackageInfo  implements Serializable {
     // prettier-ignore
     @Override
     public String toString() {
-        return "PackageInfo{" +
+        return "Item{" +
                 "id=" + getId() +
                 ", name='" + getName() + "'" +
                 ", weight=" + getWeight() +
                 ", code='" + getCode() + "'" +
                 ", imageUrl='" + getImageUrl() + "'" +
-                ", packageType='" + getPackageType() + "'" +
-                ", packageStatus='" + getPackageStatus() + "'" +
+                ", itemType='" + getItemType() + "'" +
+                ", itemStatus='" + getItemStatus() + "'" +
                 ", timeDelivered='" + getTimeDelivered() + "'" +
                 ", dateCreated='" + getDateCreated() + "'" +
                 ", dateUpdated='" + getDateUpdated() + "'" +

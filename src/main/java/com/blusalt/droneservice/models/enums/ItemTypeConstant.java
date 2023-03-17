@@ -1,10 +1,10 @@
 package com.blusalt.droneservice.models.enums;
 
-public enum PackageTypeConstant {
+public enum ItemTypeConstant {
     MEDICATION("MEDICATION");
 
     private final String enumValue;
-    private PackageTypeConstant(String value) {
+    private ItemTypeConstant(String value) {
         this.enumValue = value;
     }
 

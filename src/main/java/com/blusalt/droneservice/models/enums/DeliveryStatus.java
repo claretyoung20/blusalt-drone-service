@@ -1,6 +1,6 @@
 package com.blusalt.droneservice.models.enums;
 
-public enum DeliveryStatusDelivery {
+public enum DeliveryStatus {
 
     LOADING("LOADING"),
     IN_TRANSIT("IN_TRANSIT"),
@@ -8,7 +8,7 @@ public enum DeliveryStatusDelivery {
     DELIVERY_COMPLETED("DELIVERY_COMPLETED"),
     CANCELED("CANCELED");
     private final String enumValue;
-    private DeliveryStatusDelivery(String value) {
+    private DeliveryStatus(String value) {
         this.enumValue = value;
     }
 

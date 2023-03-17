@@ -3,12 +3,10 @@ package com.blusalt.droneservice.service;
 import com.blusalt.droneservice.models.Drone;
 import com.blusalt.droneservice.models.dto.DroneDto;
 import com.blusalt.droneservice.models.dto.DroneUpdateDto;
-import com.blusalt.droneservice.models.enums.DeliveryStatusDelivery;
 import com.blusalt.droneservice.models.enums.DroneStateConstant;
 import com.blusalt.droneservice.models.pojos.DronePojo;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Service Interface for managing {@link Drone}.

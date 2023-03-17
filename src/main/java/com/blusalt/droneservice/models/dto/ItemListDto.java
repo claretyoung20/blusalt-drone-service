@@ -9,12 +9,12 @@ import javax.validation.constraints.Size;
 import java.util.List;
 
 @Data
-public class PackageInfoListDto {
+public class ItemListDto {
     @ExistsColumnValue(
             value = DroneState.class,
             message = "Invalid drone state Id.")
     private long droneId;
 
-    @Size(min = 1, message = "Please provide one package info.")
-    List<@Valid PackageInfoDto> packages;
+    @Size(min = 1, message = "Please provide one item.")
+    List<@Valid ItemDto> itemDtos;
 }

@@ -4,16 +4,16 @@ package com.blusalt.droneservice.service.impl;
 import com.blusalt.droneservice.models.Delivery;
 import com.blusalt.droneservice.models.Drone;
 import com.blusalt.droneservice.models.DroneModel;
-import com.blusalt.droneservice.models.PackageInfo;
+import com.blusalt.droneservice.models.Item;
 import com.blusalt.droneservice.models.dto.DroneDto;
 import com.blusalt.droneservice.models.dto.DroneUpdateDto;
-import com.blusalt.droneservice.models.enums.DeliveryStatusDelivery;
+import com.blusalt.droneservice.models.enums.DeliveryStatus;
 import com.blusalt.droneservice.models.enums.DroneStateConstant;
-import com.blusalt.droneservice.models.pojos.DronePojo;
 import com.blusalt.droneservice.models.enums.GenericStatusConstant;
+import com.blusalt.droneservice.models.pojos.DronePojo;
 import com.blusalt.droneservice.repository.DeliveryRepository;
 import com.blusalt.droneservice.repository.DroneRepository;
-import com.blusalt.droneservice.repository.PackageInfoRepository;
+import com.blusalt.droneservice.repository.ItemRepository;
 import com.blusalt.droneservice.service.DroneModelService;
 import com.blusalt.droneservice.service.DroneService;
 import com.blusalt.droneservice.web.rest.errors.ErrorResponse;
@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
+import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -49,7 +50,7 @@ public class DroneServiceImpl implements DroneService {
     private DeliveryRepository deliveryRepository;
 
     @Inject
-    private PackageInfoRepository packageInfoRepository;
+    private ItemRepository itemRepository;
 
 
     @Override
@@ -91,13 +92,22 @@ public class DroneServiceImpl implements DroneService {
 
     @Override
     public DronePojo updateDroneState(Long id, DroneStateConstant droneState) {
-        Drone drone = droneRepository.findActiveDroneById(id)
+
+        Optional<Drone> optionalDrone = droneRepository.findByIdAndStatusIsNot(id, GenericStatusConstant.DELETED);
+
+        if(optionalDrone.isPresent()){
+            if(!optionalDrone.get().getStatus().getValue().equals(GenericStatusConstant.ACTIVE.getValue())) {
+                throw new ErrorResponse(HttpStatus.BAD_REQUEST, String.format("Drone with id: %d is not active", id));
+            }
+        }
+
+        Drone drone = optionalDrone
                 .map(existingDrone -> {
                     updateDroneState(existingDrone, droneState);
                     return existingDrone;
                 }).map(droneRepository::save)
                 .orElseThrow(() ->
-                        new ErrorResponse(HttpStatus.BAD_REQUEST, String.format("Drone with id: %d not found", id)));
+                        new ErrorResponse(HttpStatus.NOT_FOUND, String.format("Drone with id: %d not found", id)));
 
         return DronePojo.toPojo(droneRepository.save(drone));
     }
@@ -134,7 +144,7 @@ public class DroneServiceImpl implements DroneService {
 
                 if (existingDrone.getDroneState().value().equals(DroneStateConstant.LOADED.getValue())) {
 
-                    updateDeliveryAndItems(existingDrone, DeliveryStatusDelivery.CANCELED);
+                    updateDeliveryAndItems(existingDrone, DeliveryStatus.CANCELED);
 
                 }
             }
@@ -143,23 +153,32 @@ public class DroneServiceImpl implements DroneService {
 
     }
 
-    private void updateDeliveryAndItems(Drone existingDrone, DeliveryStatusDelivery statusDelivery) {
+    private void updateDeliveryAndItems(Drone existingDrone, DeliveryStatus statusDelivery) {
         Optional<Delivery> delivery = deliveryRepository.findByDrone(existingDrone);
         if (delivery.isPresent()) {
             Delivery delivery1 = delivery.get();
             delivery1.setDeliveryStatus(statusDelivery);
             delivery1.setDateUpdated(new Date());
 
+            if(statusDelivery.value().equals(DeliveryStatus.IN_TRANSIT.getValue())){
+                delivery1.setStartTime(Instant.now());
+            }
+
+            if(statusDelivery.value().equals(DeliveryStatus.DELIVERY_COMPLETED.getValue())){
+                delivery1.setEndTime(Instant.now());
+            }
+
             deliveryRepository.save(delivery1);
 
-            List<PackageInfo> packageInfos = delivery1.getPackageInfos().stream().map(packageInfo -> {
-                packageInfo.setPackageStatus(statusDelivery);
-                packageInfo.setDateUpdated(new Date());
-                return packageInfo;
+            /** this can be updated to actually update at it own time*/
+            List<Item> items = delivery1.getItems().stream().map(item -> {
+                item.setItemStatus(statusDelivery);
+                item.setDateUpdated(new Date());
+                return item;
             }).collect(Collectors.toList());
 
-            if (packageInfos.isEmpty()) {
-                packageInfoRepository.saveAll(packageInfos);
+            if (items.isEmpty()) {
+                itemRepository.saveAll(items);
             }
         }
     }
@@ -167,53 +186,37 @@ public class DroneServiceImpl implements DroneService {
 
     private void updateDroneState(Drone existingDrone, DroneStateConstant droneState) {
 
-        if (existingDrone.getDroneState().getValue().equals(DroneStateConstant.LOADED.value()) &&
+        if (existingDrone.getDroneState().getValue().equals(droneState.value())) {
+            return;
+        }
+
+        String existingDroneState = existingDrone.getDroneState().getValue();
+
+        if (droneState.getValue().equals(DroneStateConstant.LOADING.value()) ||
+                droneState.getValue().equals(DroneStateConstant.LOADED.value())) {
+            throw new ErrorResponse(HttpStatus.BAD_REQUEST, "To change Drone to LOADING or LOADED state go through the load function");
+        } else if (existingDroneState.equals(DroneStateConstant.LOADED.value()) &&
                 droneState.getValue().equals(DroneStateConstant.DELIVERING.value())) {
 
-            updateDeliveryAndItems(existingDrone, DeliveryStatusDelivery.IN_TRANSIT);
+            updateDeliveryAndItems(existingDrone, DeliveryStatus.IN_TRANSIT);
 
             existingDrone.setDroneState(droneState);
-        } else {
-            throw new ErrorResponse(HttpStatus.BAD_REQUEST,
-                    String.format("Drone can only go from %s to %s", DroneStateConstant.LOADED.getValue(), DroneStateConstant.DELIVERING.getValue()));
-        }
-
-        if (existingDrone.getDroneState().getValue().equals(DroneStateConstant.DELIVERING.value()) &&
+        } else if (existingDroneState.equals(DroneStateConstant.DELIVERING.value()) &&
                 droneState.getValue().equals(DroneStateConstant.DELIVERED.value())) {
 
-            updateDeliveryAndItems(existingDrone, DeliveryStatusDelivery.DELIVERY_COMPLETED);
+            updateDeliveryAndItems(existingDrone, DeliveryStatus.DELIVERY_COMPLETED);
             existingDrone.setDroneState(droneState);
-        } else {
-            throw new ErrorResponse(HttpStatus.BAD_REQUEST,
-                    String.format("Drone can only go from %s to %s", DroneStateConstant.DELIVERING.getValue(), DroneStateConstant.DELIVERED.getValue()));
-        }
-
-        if (existingDrone.getDroneState().getValue().equals(DroneStateConstant.DELIVERED.value()) &&
+        } else if (existingDroneState.equals(DroneStateConstant.DELIVERED.value()) &&
                 droneState.getValue().equals(DroneStateConstant.RETURNING.value())) {
 
             existingDrone.setDroneState(droneState);
-        } else {
-            throw new ErrorResponse(HttpStatus.BAD_REQUEST,
-                    String.format("Drone can only go from %s to %s", DroneStateConstant.DELIVERED.getValue(), DroneStateConstant.RETURNING.getValue()));
-        }
-
-        if (existingDrone.getDroneState().getValue().equals(DroneStateConstant.RETURNING.value()) &&
+        }else if (existingDroneState.equals(DroneStateConstant.RETURNING.value()) &&
                 droneState.getValue().equals(DroneStateConstant.IDLE.value())) {
 
             existingDrone.setDroneState(droneState);
         } else {
-            throw new ErrorResponse(HttpStatus.BAD_REQUEST,
-                    String.format("Drone can only go from %s to %s", DroneStateConstant.RETURNING.getValue(), DroneStateConstant.IDLE.getValue()));
+            throw new ErrorResponse(HttpStatus.BAD_REQUEST, "Drone state can only be changed in this order: IDLE -> LOADING - > LOADED -> DELIVERING -> DELIVERED -> RETURNING");
         }
-
-        if (existingDrone.getDroneState().getValue().equals(DroneStateConstant.IDLE.value()) &&
-                droneState.getValue().equals(DroneStateConstant.LOADING.value())) {
-
-            existingDrone.setDroneState(droneState);
-        } else {
-            throw new ErrorResponse(HttpStatus.BAD_REQUEST, "Please load drone instead. Drone can only be change to LOADING by actually loading the drone with items. ");
-        }
-
     }
 
     @Override
@@ -240,7 +243,7 @@ public class DroneServiceImpl implements DroneService {
     public DronePojo findDroneById(Long id) {
         log.debug("Request to get Drone : {}", id);
 
-        Optional<Drone> drone = droneRepository.findActiveDroneById(id);
+        Optional<Drone> drone = droneRepository.findByIdAndStatusIsNot(id, GenericStatusConstant.DELETED);
 
         if (drone.isEmpty()) {
             throw new ErrorResponse(HttpStatus.BAD_REQUEST, String.format("Drone with id: %d not found", id));
@@ -253,7 +256,6 @@ public class DroneServiceImpl implements DroneService {
     @Override
     public void delete(Long id) {
         log.debug("Request to delete Drone : {}", id);
-        droneRepository.deleteById(id);
 
         Optional<Drone> droneById = droneRepository.findActiveDroneById(id);
 
