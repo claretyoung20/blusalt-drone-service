@@ -1,12 +1,15 @@
 package com.blusalt.droneservice.models.enums;
 
-public enum PackageStatusConstant {
-
-    PROCESSING("PROCESSING"),
-    IN_TRANSIT("IN_TRANSIT"),
+public enum DroneStateConstant {
+    IDLE("IDLE"),
+    LOADING("LOADING"),
+    LOADED("LOADED"),
+    DELIVERING("DELIVERING"),
+    RETURNING("RETURNING"),
     DELIVERED("DELIVERED");
+
     private final String enumValue;
-    private PackageStatusConstant(String value) {
+    private DroneStateConstant(String value) {
         this.enumValue = value;
     }
 

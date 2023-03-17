@@ -2,6 +2,7 @@ package com.blusalt.droneservice.models.pojos;
 
 import com.blusalt.droneservice.models.Drone;
 import com.blusalt.droneservice.models.dto.DroneDto;
+import com.blusalt.droneservice.models.enums.DroneStateConstant;
 import com.blusalt.droneservice.models.enums.GenericStatusConstant;
 import lombok.Data;
 
@@ -16,7 +17,7 @@ public class DronePojo {
     private GenericStatusConstant droneStatus;
     private Date dateCreated;
     private Date dateUpdated;
-    private String state;
+    private DroneStateConstant state;
     private String model;
 
     public static DronePojo toPojo(Drone drone) {
@@ -31,7 +32,7 @@ public class DronePojo {
         dronePojo.setDateCreated(drone.getDateCreated());
         dronePojo.setDateUpdated(drone.getDateUpdated());
 
-        dronePojo.setState(drone.getDroneState().getState());
+        dronePojo.setState(drone.getDroneState());
         dronePojo.setModel(drone.getDroneModel().getModelName());
 
         return dronePojo;

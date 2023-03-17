@@ -1,5 +1,6 @@
 package com.blusalt.droneservice.models;
 
+import com.blusalt.droneservice.models.enums.DroneStateConstant;
 import com.blusalt.droneservice.models.enums.GenericStatusConstant;
 import lombok.Data;
 
@@ -50,9 +51,10 @@ public class Drone  implements Serializable {
     @Column(name = "date_updated")
     private Date dateUpdated;
 
-    @ManyToOne(optional = false)
     @NotNull
-    private DroneState droneState;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "drone_state")
+    private DroneStateConstant droneState;
 
     @ManyToOne(optional = false)
     @NotNull

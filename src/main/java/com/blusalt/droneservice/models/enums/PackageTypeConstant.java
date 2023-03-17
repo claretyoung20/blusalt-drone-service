@@ -1,7 +1,7 @@
 package com.blusalt.droneservice.models.enums;
 
 public enum PackageTypeConstant {
-    ACTIVE("MEDICATION");
+    MEDICATION("MEDICATION");
 
     private final String enumValue;
     private PackageTypeConstant(String value) {

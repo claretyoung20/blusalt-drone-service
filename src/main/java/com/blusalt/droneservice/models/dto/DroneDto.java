@@ -4,12 +4,12 @@ import com.blusalt.droneservice.models.Drone;
 import com.blusalt.droneservice.models.DroneModel;
 import com.blusalt.droneservice.models.DroneState;
 import com.blusalt.droneservice.models.constraint.ExistsColumnValue;
-import com.blusalt.droneservice.models.enums.GenericStatusConstant;
+import com.blusalt.droneservice.models.enums.DroneStateConstant;
 import lombok.Data;
 
 import javax.validation.constraints.*;
 
-import static com.blusalt.droneservice.models.Constants.*;
+import static com.blusalt.droneservice.models.constants.Constants.*;
 
 @Data
 public class DroneDto{
@@ -25,11 +25,6 @@ public class DroneDto{
     @Min(value = 1, message = "Battery percentage (%) min value = 1")
     @Max(value = 100, message = "Battery percentage (%) max value = 100")
     private int batteryLevel;
-
-    @ExistsColumnValue(
-            value = DroneState.class,
-            message = "Invalid drone state Id.")
-    private long droneStateId;
 
     @ExistsColumnValue(
             value = DroneModel.class,

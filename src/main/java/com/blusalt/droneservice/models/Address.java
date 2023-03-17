@@ -25,7 +25,7 @@ public class Address implements Serializable {
     private Double longitude;
 
     @Column(name = "latitude")
-    private String latitude;
+    private Double latitude;
 
     @Column(name = "date_created", nullable = false)
     private Date dateCreated;

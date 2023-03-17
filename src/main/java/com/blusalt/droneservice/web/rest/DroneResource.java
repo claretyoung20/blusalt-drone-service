@@ -1,9 +1,14 @@
 package com.blusalt.droneservice.web.rest;
 
+import com.blusalt.droneservice.models.Delivery;
 import com.blusalt.droneservice.models.dto.DroneDto;
 import com.blusalt.droneservice.models.dto.DroneUpdateDto;
+import com.blusalt.droneservice.models.dto.PackageInfoListDto;
+import com.blusalt.droneservice.models.enums.DroneStateConstant;
 import com.blusalt.droneservice.models.pojos.DronePojo;
+import com.blusalt.droneservice.service.DeliveryService;
 import com.blusalt.droneservice.service.DroneService;
+import com.blusalt.droneservice.service.PackageInfoService;
 import com.blusalt.droneservice.web.rest.utils.ApiResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,7 +33,11 @@ public class DroneResource {
     @Inject
     private DroneService droneService;
 
+    @Inject
+    protected DeliveryService deliveryService;
 
+    @Inject
+    private PackageInfoService packageInfoService;
     /**
      * {@code POST  /drones} : Create a new droneDto.
      *
@@ -104,4 +113,50 @@ public class DroneResource {
         droneService.delete(id);
         return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK.value(), "Drone deleted"));
     }
+
+    /**
+     * {@code GET  /drone/:id/loaded/packages} : Get loaded drone packages with the "id" drone.
+     *
+     * @param id the id of the drone to get loaded packages.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)}.
+     */
+    @GetMapping("/drone/{id}/loaded/packages")
+    public ResponseEntity<ApiResponse<Delivery>> getLoadedDronePackages(@PathVariable Long id) {
+        log.debug("REST request to get all Drones");
+        return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK.value(), "List of drone package", deliveryService.getLoadedDeliveryByDrone(id)));
+    }
+
+    /**
+     * {@code GET  /available/drones} : get all the active available drones.
+     *
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of drones in body.
+     */
+    @GetMapping("/available/drones")
+    public ResponseEntity<ApiResponse<List<DronePojo>>> getAllAvailableActiveDrones() {
+        log.debug("REST request to get all Drones");
+        return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK.value(), "List of drones.", droneService.findAllActiveAvailableDrone()));
+    }
+
+
+    /**
+     * {@code POST  /drones/load} : load drone
+     *
+     * @param packageInfoListDto the package info to load to a drone.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and without body, or with status {@code 400 (Bad Request)} if the there is validation error.
+     */
+    @PostMapping("/drones/load")
+    public ResponseEntity<ApiResponse<?>> loadDrone(@Valid @RequestBody PackageInfoListDto packageInfoListDto) {
+        log.debug("REST request to load Drone load dto: {}", packageInfoListDto);
+
+        packageInfoService.save(packageInfoListDto);
+        return ResponseEntity.ok(new ApiResponse<>(HttpStatus.CREATED.value(), "loaded drone"));
+    }
+
+    @PutMapping("/drone/{id}/state/{state}")
+    public ResponseEntity<ApiResponse<DronePojo>> updateDroneState(@PathVariable() Long id, @PathVariable() DroneStateConstant state) {
+        log.debug("REST request to change Drone state to: {}", state);
+        return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK.value(), "loaded status changed", droneService.updateDroneState(id, state)));
+    }
+
+
 }

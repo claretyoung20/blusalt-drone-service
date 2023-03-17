@@ -3,6 +3,8 @@ package com.blusalt.droneservice.service;
 import com.blusalt.droneservice.models.Drone;
 import com.blusalt.droneservice.models.dto.DroneDto;
 import com.blusalt.droneservice.models.dto.DroneUpdateDto;
+import com.blusalt.droneservice.models.enums.DeliveryStatusDelivery;
+import com.blusalt.droneservice.models.enums.DroneStateConstant;
 import com.blusalt.droneservice.models.pojos.DronePojo;
 
 import java.util.List;
@@ -28,12 +30,20 @@ public interface DroneService {
      */
     DronePojo update(DroneUpdateDto drone, Long id);
 
+    DronePojo updateDroneState(Long id, DroneStateConstant droneState);
+
     /**
      * Get all active the drones.
      *
      * @return the list of entities.
      */
     List<DronePojo> findAllActiveDrone();
+    /**
+     * Get all active available the drones.
+     *
+     * @return the list of entities.
+     */
+    List<DronePojo> findAllActiveAvailableDrone();
 
     /**
      * Get all the drones.
