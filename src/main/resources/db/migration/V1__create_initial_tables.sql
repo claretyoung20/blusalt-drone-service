@@ -16,7 +16,6 @@ CREATE TABLE delivery
     end_time        TIMESTAMP WITHOUT TIME ZONE,
     date_created    TIMESTAMP DEFAULT now() NOT NULL ,
     date_updated    TIMESTAMP,
-    duration        BIGINT,
     drone_id        BIGINT       NOT NULL,
     CONSTRAINT pk_delivery PRIMARY KEY (id)
 );

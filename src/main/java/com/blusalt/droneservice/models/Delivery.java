@@ -6,7 +6,6 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.Duration;
 import java.time.Instant;
 import java.util.Date;
 import java.util.HashSet;
@@ -41,9 +40,6 @@ public class Delivery  implements Serializable {
 
     @Column(name = "date_updated")
     private Date dateUpdated;
-
-    @Column(name = "duration")
-    private Duration duration; // todo remove me
 
     @ManyToOne(optional = false)
     @NotNull
@@ -134,19 +130,6 @@ public class Delivery  implements Serializable {
         this.dateUpdated = dateUpdated;
     }
 
-    public Duration getDuration() {
-        return this.duration;
-    }
-
-    public Delivery duration(Duration duration) {
-        this.setDuration(duration);
-        return this;
-    }
-
-    public void setDuration(Duration duration) {
-        this.duration = duration;
-    }
-
     public Drone getDrone() {
         return this.drone;
     }
@@ -217,7 +200,6 @@ public class Delivery  implements Serializable {
                 ", endTime='" + getEndTime() + "'" +
                 ", dateCreated='" + getDateCreated() + "'" +
                 ", dateUpdated='" + getDateUpdated() + "'" +
-                ", duration='" + getDuration() + "'" +
                 "}";
     }
 }
