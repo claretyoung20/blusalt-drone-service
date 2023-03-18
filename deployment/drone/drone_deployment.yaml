@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: drone
+  namespace: blusalt
+  labels:
+    app: drone-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: drone-service
+  template:
+    metadata:
+      labels:
+        app: drone-service
+    spec:
+      containers:
+      - name: drone
+        image: claretyoung/drone-service
+        ports:
+        - containerPort: 8060
+        env:
+          - name: DP_HOST
+            valueFrom:
+              secretKeyRef:
+                name: secrets
+                key: db-host
+          - name: DB_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: secrets
+                key: db-user
+          - name: DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: secrets
+                key: db-password
+          - name: DB_PORT
+            valueFrom:
+              configMapKeyRef:
+                name: configmap
+                key: db_port
+          - name: DB_NAME
+            valueFrom:
+              configMapKeyRef:
+                name: configmap
+                key: db_name

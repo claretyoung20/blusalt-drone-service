@@ -21,11 +21,11 @@ public class ItemDto {
     @Max(value= WEIGHT_MAX_LIMIT, message = "Please provide weight, in gram (gr) max value 500")
     private Double weight;
 
-    @NotBlank
+    @NotBlank(message = "Please provide code")
     @Pattern(regexp = "^[A-Z0-9_]*$", message = "can only upper case letters, underscore and numbers" )
     private String code; // auto generated
 
-    @NotBlank
+    @NotBlank(message = "Please provide image url")
     private String imageUrl;
 
     private AddressDto addressDto;

@@ -37,7 +37,7 @@ public class Item implements Serializable {
     @NotNull
     @Pattern(regexp = "^[A-Z0-9_]*$")
     @Column(name = "code", nullable = false, unique = true)
-    private String code; // todo auto generate or not ?
+    private String code;
 
     @NotNull
     @Column(name = "image_url", nullable = false)

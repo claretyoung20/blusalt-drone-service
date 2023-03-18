@@ -50,8 +50,6 @@ public class Delivery  implements Serializable {
     @JsonIgnoreProperties(value = { "address", "delivery" }, allowSetters = true)
     private Set<Item> items = new HashSet<>();
 
-//    private double droneWeightAvailable; // todo is it needed?
-
     public Long getId() {
         return this.id;
     }

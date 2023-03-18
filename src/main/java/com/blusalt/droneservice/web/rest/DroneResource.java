@@ -63,7 +63,7 @@ public class DroneResource {
      * or with status {@code 500 (Internal Server Error)} if the droneUpdateDto couldn't be updated.
      */
     @PutMapping("/drones/{id}")
-    public ResponseEntity<ApiResponse<DronePojo>> updateDrone(@PathVariable(value = "id") final Long id, @Valid @RequestBody DroneUpdateDto droneUpdateDto) {
+    public ResponseEntity<ApiResponse<DronePojo>> updateDroneById(@PathVariable(value = "id") final Long id, @Valid @RequestBody DroneUpdateDto droneUpdateDto) {
         log.debug("REST request to update Drone : {}, {}", id, droneUpdateDto);
 
         DronePojo result = droneService.update(droneUpdateDto, id);
@@ -94,7 +94,7 @@ public class DroneResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the drone, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/drones/{id}")
-    public ResponseEntity<ApiResponse<DronePojo>> getDrone(@PathVariable Long id) {
+    public ResponseEntity<ApiResponse<DronePojo>> getDroneById(@PathVariable Long id) {
         log.debug("REST request to get Drone : {}", id);
         DronePojo drone = droneService.findDroneById(id);
 
@@ -108,7 +108,7 @@ public class DroneResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/drones/{id}")
-    public ResponseEntity<ApiResponse<?>> deleteDrone(@PathVariable Long id) {
+    public ResponseEntity<ApiResponse<?>> deleteDroneById(@PathVariable Long id) {
         log.debug("REST request to delete Drone : {}", id);
         droneService.delete(id);
         return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK.value(), "Drone deleted"));

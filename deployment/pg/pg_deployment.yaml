@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dronedb
+  namespace: blusalt
+  labels:
+    app: drone-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: drone-db
+  template:
+    metadata:
+      labels:
+        app: drone-db
+    spec:
+      containers:
+      - name: postgres
+        image: postgres
+        ports:
+        - containerPort: 5432
+        env:
+          - name: POSTGRES_USER
+            valueFrom:
+              secretKeyRef:
+                name: secrets
+                key: db-user
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: secrets
+                key: db-password
+          - name: POSTGRES_DB
+            valueFrom:
+              configMapKeyRef:
+                name: configmap
+                key: db_name
+

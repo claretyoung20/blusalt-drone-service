@@ -8,7 +8,6 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.time.Instant;
 import java.util.Date;
 
 /**
@@ -41,13 +40,13 @@ public class DroneAudit  implements Serializable {
     @Column(name = "date_updated")
     private Date dateUpdated;
 
+    @NotNull
+    @Column(name = "drone_state", nullable = false)
+    private String droneState;
+
     @ManyToOne(optional = false)
     @NotNull
     @JsonIgnoreProperties(value = { "droneState", "droneModel" }, allowSetters = true)
     private Drone drone;
-
-    @ManyToOne(optional = false)
-    @NotNull
-    private DroneState droneState;
 
 }
