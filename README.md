@@ -7,7 +7,7 @@
 # How to run the project:
 1. create a folder
 2. Clone the project to the new folder 
-3. Setting up postgres with docker if you don't have postgres install locally on your system
+3. Set up postgres with docker if you don't have postgres install locally on your system
    1. Install and Configure PSQL using Docker:
       `docker run --name postgresql -p 5432:5432 -e POSTGRES_PASSWORD=blusalt123@ -e POSTGRES_USER=blusalt -e POSTGRES_DB=drone_db -d postgres` this create image and start the container for postgresql
    2. Using local postgres: create new user and new db to new user
