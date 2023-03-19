@@ -21,12 +21,12 @@ spec:
         ports:
         - containerPort: 8060
         env:
-          - name: DP_HOST
+          - name: DB_HOST
             valueFrom:
               secretKeyRef:
                 name: secrets
                 key: db-host
-          - name: DB_USERNAME
+          - name: DB_USER
             valueFrom:
               secretKeyRef:
                 name: secrets
