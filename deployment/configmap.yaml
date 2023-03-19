@@ -4,5 +4,5 @@ metadata:
   name: configmap
   namespace: blusalt
 data:
-  db_port: 5432
-  db_name: drone_db
+  db_port: "5432"
+  db_name: "drone_db"

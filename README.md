@@ -19,4 +19,14 @@
 6. access project swagger UI on http://localhost:8060/swagger-ui/
 7. API can also be test through postman
 
+# Running project through Kubernetes
+1. cd to deployment folder on the project root dir
+2. run `kubectl apply -f namespace.yaml,secrets.yaml,configmap.yaml`
+3. run `kubectl apply -f pg` to create deployment and service for postgresql
+4. run `kubectl apply -f drone` to create drone service deployment and service
+5. Using port-forward to have access to our service run `kubectl port-forward svc/droneservice 8060:8060 -n blusalt`
+6. access project swagger UI on http://localhost:8060/swagger-ui/
+7. API can also be test through postman
+
+having any issue contact: Young Nnenna M.C via claretyoung@gmail.com
 
