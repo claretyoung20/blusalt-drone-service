@@ -4,7 +4,6 @@ package com.blusalt.droneservice.service;
 import com.blusalt.droneservice.models.DroneAudit;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Service Interface for managing {@link DroneAudit}.

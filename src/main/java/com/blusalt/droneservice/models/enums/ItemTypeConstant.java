@@ -4,7 +4,7 @@ public enum ItemTypeConstant {
     MEDICATION("MEDICATION");
 
     private final String enumValue;
-    private ItemTypeConstant(String value) {
+    ItemTypeConstant(String value) {
         this.enumValue = value;
     }
 

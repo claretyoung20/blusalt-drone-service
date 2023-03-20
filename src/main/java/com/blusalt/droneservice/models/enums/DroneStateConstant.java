@@ -9,7 +9,7 @@ public enum DroneStateConstant {
     DELIVERED("DELIVERED");
 
     private final String enumValue;
-    private DroneStateConstant(String value) {
+    DroneStateConstant(String value) {
         this.enumValue = value;
     }
 

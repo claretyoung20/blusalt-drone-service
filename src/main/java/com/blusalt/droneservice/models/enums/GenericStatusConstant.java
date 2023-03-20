@@ -7,7 +7,7 @@ public enum GenericStatusConstant {
     DEACTIVATED("DEACTIVATED");
 
     private final String enumValue;
-    private GenericStatusConstant(String value) {
+    GenericStatusConstant(String value) {
         this.enumValue = value;
     }
 

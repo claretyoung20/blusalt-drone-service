@@ -8,7 +8,7 @@ public enum DeliveryStatus {
     DELIVERY_COMPLETED("DELIVERY_COMPLETED"),
     CANCELED("CANCELED");
     private final String enumValue;
-    private DeliveryStatus(String value) {
+    DeliveryStatus(String value) {
         this.enumValue = value;
     }
 

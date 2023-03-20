@@ -1,7 +1,6 @@
 package com.blusalt.droneservice.models.pojos;
 
 import com.blusalt.droneservice.models.Drone;
-import com.blusalt.droneservice.models.dto.DroneDto;
 import com.blusalt.droneservice.models.enums.DroneStateConstant;
 import com.blusalt.droneservice.models.enums.GenericStatusConstant;
 import lombok.Data;
