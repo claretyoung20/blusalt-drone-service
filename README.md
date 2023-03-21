@@ -17,7 +17,7 @@
 5. running the project
    on the project root dir run `.\mvnw spring-boot:run`
 6. access project swagger UI on http://localhost:8060/swagger-ui/
-7. API can also be test through postman
+7. API can also be tested through postman
 
 # Running project through Kubernetes
 1. cd to deployment folder on the project root dir
