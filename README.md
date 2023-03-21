@@ -5,7 +5,7 @@
 2. Postgresql
 
 # How to run the project:
-1. create a folder
+1. create a new folder
 2. Clone the project to the new folder 
 3. Set up postgres with docker if you don't have postgres install locally on your system
    1. Install and Configure PSQL using Docker:
@@ -26,7 +26,7 @@
 4. run `kubectl apply -f drone` to create drone service deployment and service
 5. Using port-forward to have access to our service run `kubectl port-forward svc/droneservice 8060:8060 -n blusalt`
 6. access project swagger UI on http://localhost:8060/swagger-ui/
-7. API can also be test through postman
+7. API can also be tested through postman
 
 having any issue contact: Young Nnenna M.C via claretyoung@gmail.com
 
