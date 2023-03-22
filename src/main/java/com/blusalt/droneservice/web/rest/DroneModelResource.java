@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,7 +38,7 @@ public class DroneModelResource {
      * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new droneModel, or with status {@code 400 (Bad Request)} if the droneModel has already an ID.
      */
     @PostMapping("/drone-models")
-    public ResponseEntity<ApiResponse<DroneModel>>  createDroneModel(@RequestBody DroneModelDto droneModelDto) {
+    public ResponseEntity<ApiResponse<DroneModel>>  createDroneModel(@RequestBody @Valid DroneModelDto droneModelDto) {
         log.debug("REST request to save DroneModel : {}", droneModelDto);
 
         DroneModel result = droneModelService.save(droneModelDto);
