@@ -4,12 +4,9 @@ metadata:
   name: drone
   namespace: blusalt
   labels:
-    app: drone-service
+    app: drone-deployment
 spec:
   replicas: 1
-  selector:
-    matchLabels:
-      app: drone-service
   template:
     metadata:
       labels:
@@ -46,3 +43,6 @@ spec:
               configMapKeyRef:
                 name: configmap
                 key: db_name
+  selector:
+    matchLabels:
+      app: drone-service

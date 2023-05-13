@@ -4,10 +4,11 @@ metadata:
   name: droneservice
   namespace: blusalt
   labels:
-    app: drone-service
+    app: drone-svc
 spec:
   selector:
     app: drone-service
+  type: LoadBalancer
   ports:
-  - port: 8060
+  - port: 80
     targetPort: 8060

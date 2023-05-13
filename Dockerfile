@@ -1,4 +1,4 @@
-FROM  openjdk:11
+FROM  openjdk:11.0.11-9-jdk-slim
 VOLUME /tmp
 EXPOSE 8060
 COPY target/DroneService.jar app.jar
