@@ -32,3 +32,12 @@
 
 having any issue contact: Young Nnenna M.C via claretyoung@gmail.com
 
+# Running project through helm
+#### cd to charts folder on the project root dir
+ 1. `cd charts`
+ 2. `helm dependency update drone-service/ `
+ 3. `helm install blusalt drone-service/ -n default` you can use any namespace
+ 4. the service is available at http://drone.service/ but first you need to update you host file with ip address, you can check online how to change your OS host file and
+ 5. for mac M1 run `sudo vi /etc/host` add the loadbalancer external IP of traefik service to get traefik ip `kubectl get svc -n default` and the dns name like this  "167.00.00.00 drone.service" change the ip to you LB ip and flush DNS
+    `sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder`
+visit http://drone.service/swagger-ui/#/
