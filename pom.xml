@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.blusalt</groupId>
 	<artifactId>drone-service</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1-release</version>
 	<name>drone-service</name>
 	<description>Blusalt’s Software Engineering Challenge</description>
 	<properties>
