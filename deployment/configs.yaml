@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: blusalt
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: configmap
+  namespace: blusalt
+data:
+  db_port: "5432"
+  db_name: "drone_db"
+
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: secrets
+  namespace: blusalt
+type: Opaque
+data:
+  db-user: cm9vdA==
+  db-password: cm9vdA==
+  db-host: cGdzZXJ2aWNl
