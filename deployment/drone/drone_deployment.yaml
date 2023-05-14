@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: drone
-        image: claretyoung/drone-service
+        image: claretyoung/drone-app
         ports:
         - containerPort: 8060
         env:

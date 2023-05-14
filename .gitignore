@@ -32,3 +32,6 @@ build/
 ### VS Code ###
 .vscode/
 .env
+
+charts/drone-service/charts/
+charts/drone-service/Chart.lock
