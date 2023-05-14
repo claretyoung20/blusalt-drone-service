@@ -41,10 +41,13 @@ spec:
           #   httpGet:
           #     path: /
           #     port: http
+          #   initialDelaySeconds: {{ .Values.initial.DelaySeconds | int}}
           # readinessProbe:
           #   httpGet:
           #     path: /
           #     port: http
+          #   initialDelaySeconds:  {{ .Values.initial.DelaySeconds | int}}  
+            
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           env:

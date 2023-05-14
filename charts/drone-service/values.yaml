@@ -6,7 +6,7 @@ replicaCount: 1
 
 image:
   repository: claretyoung/drone-app
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
   tag: "latest"
 
@@ -24,6 +24,9 @@ serviceAccount:
   name: ""
 
 podAnnotations: {}
+
+initial:
+  DelaySeconds: 90
 
 podSecurityContext: {}
   # fsGroup: 2000
