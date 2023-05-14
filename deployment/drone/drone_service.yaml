@@ -8,7 +8,7 @@ metadata:
 spec:
   selector:
     app: drone-service
-  type: ClusterIP
+  type: NodePort
   ports:
   - port: 8060
     targetPort: 8060
