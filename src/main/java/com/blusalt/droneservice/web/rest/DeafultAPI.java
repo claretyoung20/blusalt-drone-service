@@ -19,7 +19,7 @@ public class DeafultAPI {
     @GetMapping()
     public ResponseEntity<ApiResponse<String>> getAllAddresses() {
         log.info("Default api");
-        String msg =  "Go to http://drone.service/swagger-ui/#/ for API documentation";
+        String msg =  "Go to /swagger-ui/#/ for API documentation";
         return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK.value(), "Welcome", msg));
     }
 
