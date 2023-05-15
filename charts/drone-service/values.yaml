@@ -95,3 +95,8 @@ secret:
   dbUser: "root"
   dbHost: "root"
   dbPassword: "root"
+
+
+traefik:
+  service:
+    type: NodePort
