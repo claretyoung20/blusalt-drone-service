@@ -35,3 +35,5 @@ build/
 
 charts/drone-service/charts/
 charts/drone-service/Chart.lock
+charts/.DS_Store
+charts/drone-service/.DS_Store
