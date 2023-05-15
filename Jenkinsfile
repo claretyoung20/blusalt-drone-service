@@ -185,7 +185,10 @@ pipeline {
                     withKubeConfig(credentialsId: 'DO_K8S') {  
                         sh 'kubectl apply -f charts/ns.yaml' 
                         sh 'helm dependency build charts/drone-service'
-                        sh "helm upgrade --install drone-app charts/drone-service/ -n helm-drone --set image.tag=$IMAGE_TAG"
+                        withCredentials([string(credentialsId: 'DB_PASSWORD', variable: 'DB_PASS'), string(credentialsId: 'DB_HOST', variable: 'DB_HOST')]) {
+                            sh "helm upgrade --install drone-app charts/drone-service/ -n helm-drone --set image.tag=$IMAGE_TAG,secret.dbUser=drone,secret.dbHost=$DB_HOST,secret.dbPassword=$DB_PASS,configmap.db_name=drone_db,configmap.db_port=25060"
+                        }
+                        
                     }
                 }
             }
@@ -194,10 +197,10 @@ pipeline {
 
     post {
         failure {
-            mail body: "Check build logs at ${env.BUILD_URL}", from: 'jenkins-admin@gmail.com', subject: "Jenkins pipeline has failed for job ${env.JOB_NAME}", to: "claretyoung@gmail.com"
+            mail body: "Check build logs at ${env.BUILD_URL}", from: 'jenkins-admin@gmail.com', subject: "Jenkins pipeline has failed for job ${env.JOB_NAME}", to: "${env.GIT_AUTHOR_EMAIL}"
         }
         success {
-            mail body: "Check build logs at ${env.BUILD_URL}", from: 'jenkins-admin@gmail.com', subject: "Jenkins pipeline for job ${env.JOB_NAME} is completed successfully", to: "claretyoung@gmail.com"
+            mail body: "Check build logs at ${env.BUILD_URL}", from: 'jenkins-admin@gmail.com', subject: "Jenkins pipeline for job ${env.JOB_NAME} is completed successfully", to: "${env.GIT_AUTHOR_EMAIL}"
         }
     }
 }

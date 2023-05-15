@@ -23,9 +23,6 @@ version: 0.1.0
 # It is recommended to use it with quotes.
 appVersion: "1.16.0"
 dependencies:
-  - name: postgresql
-    version: 12.5.1
-    repository: https://charts.bitnami.com/bitnami
   - name: traefik
     version: 23.0.1
     repository: https://traefik.github.io/charts

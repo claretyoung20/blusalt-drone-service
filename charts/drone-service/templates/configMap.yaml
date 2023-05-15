@@ -3,5 +3,5 @@ kind: ConfigMap
 metadata:
   name: {{ include "drone-service.configmap" . }}
 data:
-  db_port: {{ .Values.postgresql.global.postgresql.service.ports.postgresql | quote}}
-  db_name: {{ .Values.postgresql.global.postgresql.auth.database | quote }}
+  db_port: {{ .Values.configmap.db_port | quote}}
+  db_name: {{ .Values.configmap.db_name | quote }}
