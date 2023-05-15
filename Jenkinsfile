@@ -186,7 +186,7 @@ pipeline {
                         sh 'kubectl apply -f charts/ns.yaml' 
                         sh 'helm dependency build charts/drone-service'
                         withCredentials([string(credentialsId: 'DB_PASSWORD', variable: 'DB_PASS'), string(credentialsId: 'DB_HOST', variable: 'DB_HOST')]) {
-                            sh "helm upgrade --install drone-app charts/drone-service/ -n helm-drone --set image.tag=$IMAGE_TAG,secret.dbUser=drone,secret.dbHost=$DB_HOST,secret.dbPassword=$DB_PASS,configmap.db_name=drone_db,configmap.db_port=25060"
+                            sh "helm upgrade --install drone-app charts/drone-service/ -n helm-drone --set configmap.db_name,configmap.db_port=25060,image.tag=$IMAGE_TAG,secret.dbUser=drone,secret.dbHost=$DB_HOST,secret.dbPassword=$DB_PASS"
                         }
                         
                     }
