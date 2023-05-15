@@ -197,7 +197,7 @@ pipeline {
             mail body: "Check build logs at ${env.BUILD_URL}", from: 'jenkins-admin@gmail.com', subject: "Jenkins pipeline has failed for job ${env.JOB_NAME}", to: "claretyoung@gmail.com"
         }
         success {
-            mail body: "Check build logs at ${env.BUILD_URL}", from: 'jenkins-admin@gmail.com', subject: "Jenkins pipeline for job ${env.JOB_NAME} is completed successfully", to: "${env.CHANGE_AUTHOR_EMAIL}"
+            mail body: "Check build logs at ${env.BUILD_URL}", from: 'jenkins-admin@gmail.com', subject: "Jenkins pipeline for job ${env.JOB_NAME} is completed successfully", to: "claretyoung@gmail.com"
         }
     }
 }
