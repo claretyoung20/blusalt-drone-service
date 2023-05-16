@@ -1,4 +1,4 @@
-# Build Status
+# Embeddable Build Status
 [![Build Status](http://159.65.215.177:8080/buildStatus/icon?job=buildStatus)](http://159.65.215.177:8080/job/buildStatus/)
 # blusalt-drone-service
 
