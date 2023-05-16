@@ -63,6 +63,10 @@ pipeline {
         IMAGE_TAG = "${BUILD_NUMBER}"
     }
 
+    triggers {
+        GenericTrigger causeString: 'Generic Cause', regexpFilterExpression: '', regexpFilterText: '', token: 'drone123', tokenCredentialId: ''
+    }
+
     stages {
         stage('Checkout SCM') {
             steps {

@@ -34,6 +34,7 @@ having any issue contact: Young Nnenna M.C via claretyoung@gmail.com
 
 # Running project through helm
 #### cd to charts folder on the project root dir
+First of all modify values.yaml file under config and secret provide data base details.
  1. `cd charts`
  2. `helm dependency update drone-service/ `
  3. `helm install blusalt drone-service/ -n default` you can use any namespace
