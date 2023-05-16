@@ -66,9 +66,11 @@ pipeline {
         IMAGE_NAME = "${DOCKERHUB_USER}" + "/" + "${APP_NAME}"
         IMAGE_TAG = "${BUILD_NUMBER}"
     }
+
     triggers {
         GenericTrigger token: 'drone123'
     }
+
     stages {
         stage('Checkout SCM') {
             steps {
