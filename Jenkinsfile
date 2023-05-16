@@ -64,7 +64,7 @@ pipeline {
     }
 
     triggers {
-        GenericTrigger causeString: 'Generic Cause', regexpFilterExpression: '', regexpFilterText: '', token: 'drone123', tokenCredentialId: ''
+        GenericTrigger token: 'drone123'
     }
 
     stages {
