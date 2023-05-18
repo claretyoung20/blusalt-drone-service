@@ -42,4 +42,3 @@ First of all modify values.yaml file under config and secret provide data base d
  5. for mac M1 run `sudo vi /etc/host` add the loadbalancer external IP of traefik service to get traefik ip `kubectl get svc -n default` and the dns name like this  "167.00.00.00 drone.service" change the ip to you LB ip and flush DNS
     `sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder`
 visit http://drone.service/swagger-ui/#/
-
