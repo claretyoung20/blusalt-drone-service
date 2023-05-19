@@ -49,7 +49,7 @@ ingress:
   annotations:
     kubernetes.io/ingress.class: traefik
   hosts:
-    - host: drone.service
+    - host: nnecode.com
       paths:
         - path: /
           pathType: Prefix
@@ -96,7 +96,3 @@ secret:
   dbHost: "root"
   dbPassword: "root"
 
-
-traefik:
-  service:
-    type: NodePort
